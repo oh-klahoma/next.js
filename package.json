@@ -39,7 +39,7 @@
     "prepublishOnly": "turbo run build",
     "release-canary": "git checkout canary && git pull && lerna version prerelease --preid canary --force-publish && release --pre --skip-questions --show-url",
     "release-stable": "lerna version --force-publish",
-    "publish-canary": "node -e 'import(\"open\").then(open => open.default(\"https://github.com/vercel/next.js/actions/workflows/trigger_release.yml\"))'",
+    "publish-canary": "node -e 'import(\"open\").then(open => open.default(\"https://github.com/oh-klahoma/next.js/actions/workflows/trigger_release.yml\"))'",
     "publish-stable": "pnpm publish-canary",
     "lint-staged": "lint-staged",
     "next-with-deps": "./scripts/next-with-deps.sh",

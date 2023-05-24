@@ -44,7 +44,10 @@ import { RequestAsyncStorageWrapper } from '../async-storage/request-async-stora
 import { StaticGenerationAsyncStorageWrapper } from '../async-storage/static-generation-async-storage-wrapper'
 import { isClientReference } from '../../lib/client-reference'
 import { getLayoutOrPageModule, LoaderTree } from '../lib/app-dir-module'
-import { isNotFoundError } from '../../client/components/not-found'
+import {
+  isCustomResponseCodeError,
+  isNotFoundError,
+} from '../../client/components/not-found'
 import {
   getURLFromRedirectError,
   isRedirectError,
@@ -1509,6 +1512,9 @@ export async function renderToHTMLOrFlight(
           }
           if (isNotFoundError(err)) {
             res.statusCode = 404
+          }
+          if (isCustomResponseCodeError(err)) {
+            res.statusCode = err.status
           }
           if (isRedirectError(err)) {
             res.statusCode = 307

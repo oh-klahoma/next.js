@@ -1,7 +1,10 @@
 import { DYNAMIC_ERROR_CODE } from '../../client/components/hooks-server-context'
 import stringHash from 'next/dist/compiled/string-hash'
 import { formatServerError } from '../../lib/format-server-error'
-import { isNotFoundError } from '../../client/components/not-found'
+import {
+  isCustomResponseCodeError,
+  isNotFoundError,
+} from '../../client/components/not-found'
 import { isRedirectError } from '../../client/components/redirect'
 import { NEXT_DYNAMIC_NO_SSR_CODE } from '../../shared/lib/lazy-dynamic/no-ssr-error'
 
@@ -36,7 +39,8 @@ export function createErrorHandler({
       (err.digest === DYNAMIC_ERROR_CODE ||
         isNotFoundError(err) ||
         err.digest === NEXT_DYNAMIC_NO_SSR_CODE ||
-        isRedirectError(err))
+        isRedirectError(err) ||
+        isCustomResponseCodeError(err))
     ) {
       return err.digest
     }
