@@ -44,10 +44,7 @@ import { RequestAsyncStorageWrapper } from '../async-storage/request-async-stora
 import { StaticGenerationAsyncStorageWrapper } from '../async-storage/static-generation-async-storage-wrapper'
 import { isClientReference } from '../../lib/client-reference'
 import { getLayoutOrPageModule, LoaderTree } from '../lib/app-dir-module'
-import {
-  isCustomResponseCodeError,
-  isNotFoundError,
-} from '../../client/components/not-found'
+import { isNotFoundError } from '../../client/components/not-found'
 import {
   getURLFromRedirectError,
   isRedirectError,
@@ -76,6 +73,7 @@ import { handleAction } from './action-handler'
 import { NEXT_DYNAMIC_NO_SSR_CODE } from '../../shared/lib/lazy-dynamic/no-ssr-error'
 import { warn } from '../../build/output/log'
 import { appendMutableCookies } from '../web/spec-extension/adapters/request-cookies'
+import { isCustomResponseCodeError } from '../../client/components/custom-response-code-error'
 
 export const isEdgeRuntime = process.env.NEXT_RUNTIME === 'edge'
 

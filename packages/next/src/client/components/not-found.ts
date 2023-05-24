@@ -1,7 +1,6 @@
 const NOT_FOUND_ERROR_CODE = 'NEXT_NOT_FOUND'
 
 type NotFoundError = Error & { digest: typeof NOT_FOUND_ERROR_CODE }
-type CustomResponseCodeError = NotFoundError & { status: number }
 
 /**
  * When used in a React server component, this will set the status code to 404.
@@ -23,16 +22,4 @@ export function notFound(): never {
  */
 export function isNotFoundError(error: any): error is NotFoundError {
   return error?.digest === NOT_FOUND_ERROR_CODE
-}
-
-export function customResponseCodeError(status: number): never {
-  const error = new Error(`CUSTOM_RESPONSE_CODE_ERROR-${status}`)
-  ;(error as CustomResponseCodeError).status = status
-  throw error
-}
-
-export function isCustomResponseCodeError(
-  error: any
-): error is CustomResponseCodeError {
-  return /^CUSTOM_RESPONSE_CODE_ERROR-([\d+]{3})$/g.test(error?.digest)
 }

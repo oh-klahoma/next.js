@@ -234,3 +234,7 @@ export function useSelectedLayoutSegment(
 
 export { redirect } from './redirect'
 export { notFound } from './not-found'
+export {
+  customResponseCodeError,
+  isCustomResponseCodeError,
+} from './custom-response-code-error'

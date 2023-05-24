@@ -1,12 +1,10 @@
 import { DYNAMIC_ERROR_CODE } from '../../client/components/hooks-server-context'
 import stringHash from 'next/dist/compiled/string-hash'
 import { formatServerError } from '../../lib/format-server-error'
-import {
-  isCustomResponseCodeError,
-  isNotFoundError,
-} from '../../client/components/not-found'
+import { isNotFoundError } from '../../client/components/not-found'
 import { isRedirectError } from '../../client/components/redirect'
 import { NEXT_DYNAMIC_NO_SSR_CODE } from '../../shared/lib/lazy-dynamic/no-ssr-error'
+import { isCustomResponseCodeError } from '../../client/components/custom-response-code-error'
 
 /**
  * Create error handler for renderers.
