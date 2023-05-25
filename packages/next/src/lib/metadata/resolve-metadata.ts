@@ -201,7 +201,8 @@ function merge({
 async function getDefinedMetadata(
   mod: any,
   props: any,
-  route: string
+  route: string,
+  pathname: string
 ): Promise<Metadata | MetadataResolver | null> {
   // Layer is a client component, we just skip it. It can't have metadata exported.
   // Return early to avoid accessing properties error for client references.
@@ -219,7 +220,7 @@ async function getDefinedMetadata(
                 'next.page': route,
               },
             },
-            () => mod.generateMetadata(props, parent)
+            () => mod.generateMetadata(props, parent, pathname)
           )
       : mod.metadata) || null
   )
@@ -270,11 +271,13 @@ export async function collectMetadata({
   metadataItems: array,
   props,
   route,
+  pathname,
 }: {
   tree: LoaderTree
   metadataItems: MetadataItems
   props: any
   route: string
+  pathname: string
 }) {
   const [mod, modType] = await getLayoutOrPageModule(tree)
 
@@ -284,7 +287,7 @@ export async function collectMetadata({
 
   const staticFilesMetadata = await resolveStaticMetadata(tree[2], props)
   const metadataExport = mod
-    ? await getDefinedMetadata(mod, props, route)
+    ? await getDefinedMetadata(mod, props, route, pathname)
     : null
 
   array.push([metadataExport, staticFilesMetadata])
@@ -297,6 +300,7 @@ export async function resolveMetadata({
   treePrefix = [],
   getDynamicParamFromSegment,
   searchParams,
+  pathname,
 }: {
   tree: LoaderTree
   parentParams: { [key: string]: any }
@@ -305,6 +309,7 @@ export async function resolveMetadata({
   treePrefix?: string[]
   getDynamicParamFromSegment: GetDynamicParamFromSegment
   searchParams: { [key: string]: any }
+  pathname: string
 }): Promise<MetadataItems> {
   const [segment, parallelRoutes, { page }] = tree
   const currentTreePrefix = [...treePrefix, segment]
@@ -330,6 +335,7 @@ export async function resolveMetadata({
   }
 
   await collectMetadata({
+    pathname,
     tree,
     metadataItems,
     props: layerProps,
@@ -342,6 +348,7 @@ export async function resolveMetadata({
   for (const key in parallelRoutes) {
     const childTree = parallelRoutes[key]
     await resolveMetadata({
+      pathname,
       tree: childTree,
       metadataItems,
       parentParams: currentParams,

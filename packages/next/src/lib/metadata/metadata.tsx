@@ -34,6 +34,7 @@ export async function MetadataTree({
     pathname,
   }
   const resolvedMetadata = await resolveMetadata({
+    pathname,
     tree,
     parentParams: {},
     metadataItems: [],
